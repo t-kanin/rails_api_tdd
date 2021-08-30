@@ -17,7 +17,7 @@ RSpec.describe ArticlesController do
     article = create(:article)
     get '/articles'
     #body not needed because we refactor it to the api_helpers
-    #body = JSON.parse(response.body).deep_symbolize_keys # to chage it to symbol type :title instead of "title"
+    #body = JSON.parse(response.body).deep_psymbolize_keys # to chage it to symbol type :title instead of "title"
     # pp body to inspect the body in a more readable way use it before the expectation
     expect(json_data.length).to eq(1)
     expected = json_data.first
@@ -50,8 +50,9 @@ RSpec.describe ArticlesController do
   it 'contain pagination links' do 
     article1, article2, article3 = create_list(:article,3)
     get '/articles', params: {page: {number: 2, size: 1}} # page1 = article1, page2 = article2
-    expect(json['links'].length).to eq(5)
-    expect(json['links'].keys).to contain_exactly('first','prev','next','last','self')
+    expect(json[:links].length).to eq(5)
+    expect(json[:links].keys).to contain_exactly(:first,:prev,:next,:last,:self)
   end 
 
 end 
+
